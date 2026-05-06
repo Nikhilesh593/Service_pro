@@ -62,18 +62,16 @@ const GoogleSVG = () => (
 
 /* =================== Service Options =================== */
 const SERVICE_OPTIONS = [
-  { id: 1, name: 'Instant Visit', price: '₹250/- + S.C', note: '(2–4 hr)' },
-  { id: 2, name: 'General Visit', price: '₹200/- + S.C', note: '(24 hr)' },
-  { id: 3, name: 'A.C Jet Machine Service', price: '₹1,099/-', note: '' },
-  { id: 4, name: 'Watertank Clean by Machine', price: '₹1,599/-', note: '' },
-  { id: 5, name: 'Air Cooler Service', price: '₹349/-', note: '' },
-  { id: 6, name: 'Washing Machine Service', price: '₹899/-', note: '' },
-  { id: 7, name: 'Generator/Inverter Rentals', price: '₹699/-', note: '' },
-  { id: 8, name: 'Chimney Services', price: '₹1,099/-', note: '' },
-  { id: 9, name: 'Aquaguard Service', price: '₹399/-', note: '' },
-  { id: 10, name: 'Janitorial Services', price: '₹449/-', note: '' },
-  { id: 11, name: '2-Wheeler Services @ Doorstep', price: '₹499/-', note: '' },
-  { id: 12, name: 'Others', price: 'Please specify', note: '' },
+  { id: 1, name: 'A.C Jet Machine Service' },
+  { id: 2, name: 'Watertank Clean by Machine' },
+  { id: 3, name: 'Air Cooler Service' },
+  { id: 4, name: 'Washing Machine Service' },
+  { id: 5, name: 'Generator/Inverter Rentals' },
+  { id: 6, name: 'Chimney Services' },
+  { id: 7, name: 'Aquaguard Service' },
+  { id: 8, name: 'Janitorial Services' },
+  { id: 9, name: '2 Wheeler Services @ Doorstep' },
+  { id: 10, name: 'Others' },
 ];
 
 /* =================== Component =================== */
@@ -464,14 +462,8 @@ export default function Register({ setUser }) {
                           </div>
                           <div className="service-info">
                             <span className="service-name">
-                              {service.id}. {service.name}
-                              {service.note && (
-                                <span style={{ color: 'var(--sp-text-dim)', fontSize: '0.75rem', marginLeft: 4 }}>
-                                  {service.note}
-                                </span>
-                              )}
+                              {service.name}
                             </span>
-                            <span className="service-price">{service.price}</span>
                           </div>
                         </label>
                       );
@@ -479,7 +471,7 @@ export default function Register({ setUser }) {
                   </div>
 
                   {/* "Others" text area */}
-                  {selectedServices.includes(12) && (
+                  {selectedServices.includes(10) && (
                     <textarea
                       id="others-specify"
                       className="others-textarea"
