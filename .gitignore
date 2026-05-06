@@ -1,0 +1,39 @@
+# ===========================
+# Node modules (both frontend & backend)
+# ===========================
+node_modules/
+**/node_modules/
+
+# ===========================
+# Environment variables — NEVER commit these
+# ===========================
+.env
+.env.local
+.env.development
+.env.production
+**/.env
+
+# ===========================
+# Build output
+# ===========================
+frontend/dist/
+frontend/build/
+
+# ===========================
+# Uploaded files (runtime data)
+# ===========================
+backend/uploads/
+
+# ===========================
+# Logs
+# ===========================
+*.log
+npm-debug.log*
+
+# ===========================
+# OS / Editor files
+# ===========================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
