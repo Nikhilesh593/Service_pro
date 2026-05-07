@@ -9,6 +9,10 @@ export default function CustomerDashboard({ user }) {
   const [aiCategory, setAiCategory] = useState('');
   const [loadingAi, setLoadingAi] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [faultPhoto, setFaultPhoto] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
+
+  const BACKEND = 'http://localhost:5000';
 
   useEffect(() => {
     fetchRequests();
@@ -36,20 +40,34 @@ export default function CustomerDashboard({ user }) {
     }
   };
 
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setFaultPhoto(file);
+    setPhotoPreview(URL.createObjectURL(file));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!aiCategory) return alert('Please get AI suggestion first');
     setSubmitting(true);
     try {
-      await api.post('/request', {
-        serviceType: aiCategory,
-        description: formData.problemText,
-        location: formData.location,
-        urgency: formData.urgency
-      });
+      // Use FormData to support file upload
+      const payload = new FormData();
+      payload.append('serviceType', aiCategory);
+      payload.append('description', formData.problemText);
+      payload.append('location', formData.location);
+      payload.append('urgency', formData.urgency);
+      if (faultPhoto) payload.append('faultPhoto', faultPhoto);
+
+      // Do NOT set Content-Type manually — axios auto-sets multipart/form-data
+      // with the correct boundary when it detects a FormData object
+      await api.post('/request', payload);
       setShowForm(false);
       setFormData({ problemText: '', location: '', urgency: 'medium' });
       setAiCategory('');
+      setFaultPhoto(null);
+      setPhotoPreview(null);
       fetchRequests();
     } catch (err) {
       console.error(err);
@@ -127,6 +145,25 @@ export default function CustomerDashboard({ user }) {
               </select>
             </div>
 
+            <div className="form-group">
+              <label>📸 Fault Photo (optional)</label>
+              <input
+                type="file"
+                accept="image/*"
+                className="input-field"
+                style={{ padding: '8px' }}
+                onChange={handlePhotoChange}
+              />
+              {photoPreview && (
+                <div style={{ marginTop: 10 }}>
+                  <img src={photoPreview} alt="Preview"
+                    style={{ maxWidth: '100%', maxHeight: 200, borderRadius: 8, border: '1px solid var(--border)', objectFit: 'cover' }} />
+                  <button type="button" onClick={() => { setFaultPhoto(null); setPhotoPreview(null); }}
+                    style={{ display: 'block', marginTop: 6, background: 'none', border: 'none', color: 'var(--danger)', cursor: 'pointer', fontSize: '0.8rem' }}>✕ Remove photo</button>
+                </div>
+              )}
+            </div>
+
             <button type="submit" className="btn-primary" disabled={submitting || !aiCategory}>Submit Request</button>
           </form>
         </div>
@@ -145,6 +182,17 @@ export default function CustomerDashboard({ user }) {
               <p>⏳ Urgency: {req.urgency}</p>
               {req.assignedTo && <p>👷 Provider: {req.assignedTo.name}</p>}
             </div>
+            {req.faultPhoto && (
+              <div style={{ marginBottom: 12 }}>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 6 }}>📸 Fault Photo:</p>
+                <img
+                  src={`${BACKEND}${req.faultPhoto}`}
+                  alt="Fault"
+                  style={{ width: '100%', maxHeight: 180, objectFit: 'cover', borderRadius: 8, border: '1px solid var(--border)', cursor: 'pointer' }}
+                  onClick={() => window.open(`${BACKEND}${req.faultPhoto}`, '_blank')}
+                />
+              </div>
+            )}
             {req.status === 'completed' && (
               <button className="btn-secondary" style={{ width: '100%', display: 'flex', justifyContent: 'center', gap: '8px' }} onClick={() => downloadPdf(req._id)}>
                 <Download size={16} /> Download PDF

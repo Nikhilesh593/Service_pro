@@ -7,6 +7,12 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, enum: ['customer', 'technician', 'organization', 'admin'], required: true },
   status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
+  // Profile extension fields
+  phone: { type: String, default: '' },
+  bio: { type: String, default: '' },
+  specialization: { type: String, default: '' },
+  rating: { type: Number, default: 0 },
+  totalRatings: { type: Number, default: 0 },
   documents: {
     license: String,
     certificate: String,
