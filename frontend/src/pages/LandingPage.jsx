@@ -22,7 +22,8 @@ import {
   Quote,
   ArrowRight,
   Clock,
-  MapPin as MapPinIcon
+  MapPin as MapPinIcon,
+  Locate
 } from 'lucide-react';
 import BookingWizard from '../components/BookingWizard';
 import '../components/BookingWizard.css';
@@ -35,6 +36,32 @@ const LandingPage = ({ user, onLogout }) => {
   const [selectedService, setSelectedService] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isDetecting, setIsDetecting] = useState(false);
+  const [location, setLocation] = useState('');
+  const [isLocating, setIsLocating] = useState(false);
+
+  const detectLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser");
+      return;
+    }
+    setIsLocating(true);
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const { latitude, longitude } = position.coords;
+      try {
+        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+        const data = await response.json();
+        const city = data.address.city || data.address.town || data.address.village || data.address.county || "Detected Location";
+        setLocation(city);
+      } catch (error) {
+        console.error("Error detecting location:", error);
+      } finally {
+        setIsLocating(false);
+      }
+    }, (error) => {
+      console.error("Geolocation error:", error);
+      setIsLocating(false);
+    });
+  };
 
   const openBooking = (service = null) => {
     if (!user) {
@@ -134,7 +161,21 @@ const LandingPage = ({ user, onLogout }) => {
             </div>
             <div className="search-input-group">
               <MapPin size={20} />
-              <input type="text" placeholder="Your location" />
+              <input 
+                type="text" 
+                placeholder="Your location" 
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              />
+              <button 
+                onClick={detectLocation} 
+                className="lp-detect-btn" 
+                title="Detect my location"
+                disabled={isLocating}
+                style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: isLocating ? '#f97316' : '#94a3b8', display: 'flex', alignItems: 'center' }}
+              >
+                <Locate size={18} />
+              </button>
             </div>
             <button 
               className="btn-orange" 
