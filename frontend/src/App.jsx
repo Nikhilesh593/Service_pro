@@ -7,6 +7,7 @@ import TechnicianDashboard from './pages/TechnicianDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import LandingPage from './pages/LandingPage';
 import Navbar from './components/Navbar';
+import CustomerChatbot from './components/CustomerChatbot';
 
 const TECH_ROUTES = ['/technician-dashboard', '/organization-dashboard'];
 
@@ -31,7 +32,7 @@ function AppContent() {
   const isCustomerPage = location.pathname === '/customer-dashboard';
 
   // Dashboards with their own sidebar skip global Navbar
-  const showNavbar = user && !isAuthPage && !isTechPage && !isCustomerPage;
+  const showNavbar = user && !isAuthPage && !isTechPage && !isCustomerPage && !isLandingPage;
 
   return (
     <div className="app-container">
@@ -46,8 +47,8 @@ function AppContent() {
               : { padding: '32px', flex: 1, maxWidth: '1200px', margin: '0 auto', width: '100%' }
       }>
         <Routes>
-          <Route path="/login"    element={!user ? <Login setUser={setUser} /> : <Navigate to={`/${user.role}-dashboard`} />} />
-          <Route path="/register" element={!user ? <Register setUser={setUser} /> : <Navigate to={`/${user.role}-dashboard`} />} />
+          <Route path="/login"    element={!user ? <Login setUser={setUser} /> : <Navigate to="/" />} />
+          <Route path="/register" element={!user ? <Register setUser={setUser} /> : <Navigate to="/" />} />
 
           <Route path="/customer-dashboard"     element={user?.role === 'customer'     ? <CustomerDashboard user={user} onLogout={handleLogout} />                             : <Navigate to="/login" />} />
           <Route path="/technician-dashboard"   element={user?.role === 'technician' || user?.role === 'organization' ? <TechnicianDashboard user={user} onLogout={handleLogout} /> : <Navigate to="/login" />} />
@@ -57,6 +58,9 @@ function AppContent() {
           <Route path="/" element={<LandingPage user={user} onLogout={handleLogout} />} />
         </Routes>
       </main>
+      
+      {/* Global AI Chatbot for Customers */}
+      {user?.role === 'customer' && <CustomerChatbot />}
     </div>
   );
 }
