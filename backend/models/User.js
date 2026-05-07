@@ -7,10 +7,14 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, enum: ['customer', 'technician', 'organization', 'admin'], required: true },
   status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
-  phone: { type: String },
-  address: { type: String },
-  documents: [{ type: String }],   // array of file paths/URLs
-  services: [{ type: mongoose.Schema.Types.Mixed }], // array of service objects
+  phone: { type: String, default: '' },
+  address: { type: String, default: '' },
+  bio: { type: String, default: '' },
+  specialization: { type: String, default: '' },
+  rating: { type: Number, default: 0 },
+  totalRatings: { type: Number, default: 0 },
+  documents: { type: mongoose.Schema.Types.Mixed },
+  services: [{ type: mongoose.Schema.Types.Mixed }],
 }, { timestamps: true });
 
 userSchema.pre('save', async function() {

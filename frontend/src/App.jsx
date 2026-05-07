@@ -8,15 +8,15 @@ import AdminDashboard from './pages/AdminDashboard';
 import LandingPage from './pages/LandingPage';
 import Navbar from './components/Navbar';
 
+const TECH_ROUTES = ['/technician-dashboard', '/organization-dashboard'];
+
 function AppContent() {
   const [user, setUser] = useState(null);
   const location = useLocation();
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
+    if (storedUser) setUser(JSON.parse(storedUser));
   }, []);
 
   const handleLogout = () => {
@@ -27,26 +27,32 @@ function AppContent() {
 
   const isLandingPage = location.pathname === '/';
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
-  const isDashboard = location.pathname.includes('-dashboard');
+  const isTechPage = TECH_ROUTES.includes(location.pathname);
+  const isCustomerPage = location.pathname === '/customer-dashboard';
+
+  // Dashboards with their own sidebar skip global Navbar
+  const showNavbar = user && !isAuthPage && !isTechPage && !isCustomerPage;
 
   return (
     <div className="app-container">
-      {user && isDashboard && <Navbar user={user} onLogout={handleLogout} />}
+      {showNavbar && <Navbar user={user} onLogout={handleLogout} />}
       <main style={
         isAuthPage
           ? { flex: 1, width: '100%', padding: 0, maxWidth: 'none', margin: 0 }
           : isLandingPage
             ? { flex: 1, width: '100%' }
-            : { padding: '32px', flex: 1, maxWidth: '1200px', margin: '0 auto', width: '100%' }
+            : isTechPage || isCustomerPage
+              ? { flex: 1, width: '100%', padding: 0, maxWidth: 'none', margin: 0 }
+              : { padding: '32px', flex: 1, maxWidth: '1200px', margin: '0 auto', width: '100%' }
       }>
         <Routes>
-          <Route path="/login" element={!user ? <Login setUser={setUser} /> : <Navigate to={`/${user.role}-dashboard`} />} />
+          <Route path="/login"    element={!user ? <Login setUser={setUser} /> : <Navigate to={`/${user.role}-dashboard`} />} />
           <Route path="/register" element={!user ? <Register setUser={setUser} /> : <Navigate to={`/${user.role}-dashboard`} />} />
 
-          <Route path="/customer-dashboard" element={user?.role === 'customer' ? <CustomerDashboard user={user} onLogout={handleLogout} /> : <Navigate to="/login" />} />
-          <Route path="/technician-dashboard" element={user?.role === 'technician' || user?.role === 'organization' ? <TechnicianDashboard user={user} /> : <Navigate to="/login" />} />
-          <Route path="/organization-dashboard" element={user?.role === 'organization' || user?.role === 'technician' ? <TechnicianDashboard user={user} /> : <Navigate to="/login" />} />
-          <Route path="/admin-dashboard" element={user?.role === 'admin' ? <AdminDashboard user={user} /> : <Navigate to="/login" />} />
+          <Route path="/customer-dashboard"     element={user?.role === 'customer'     ? <CustomerDashboard user={user} onLogout={handleLogout} />                             : <Navigate to="/login" />} />
+          <Route path="/technician-dashboard"   element={user?.role === 'technician' || user?.role === 'organization' ? <TechnicianDashboard user={user} onLogout={handleLogout} /> : <Navigate to="/login" />} />
+          <Route path="/organization-dashboard" element={user?.role === 'organization' || user?.role === 'technician' ? <TechnicianDashboard user={user} onLogout={handleLogout} /> : <Navigate to="/login" />} />
+          <Route path="/admin-dashboard"        element={user?.role === 'admin'        ? <AdminDashboard user={user} onLogout={handleLogout} />                                : <Navigate to="/login" />} />
 
           <Route path="/" element={<LandingPage user={user} onLogout={handleLogout} />} />
         </Routes>

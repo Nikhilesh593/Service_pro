@@ -1,7 +1,8 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const { register, login } = require('../controllers/authController');
+const { register, login, getProfile, updateProfile } = require('../controllers/authController');
+const { protect } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
@@ -19,5 +20,7 @@ const upload = multer({ storage, limits: { fileSize: 10 * 1024 * 1024 } }); // 1
 
 router.post('/register', upload.single('document'), register);
 router.post('/login', login);
+router.get('/profile', protect, getProfile);
+router.patch('/profile', protect, updateProfile);
 
 module.exports = router;
