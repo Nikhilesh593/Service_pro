@@ -102,7 +102,7 @@ const LandingPage = ({ user, onLogout }) => {
           <div className="logo-icon">
             <Wrench size={24} />
           </div>
-          ServiConnect
+          ServicePro
         </Link>
         <div className="nav-links">
           <a href="#services">Services</a>
@@ -319,8 +319,8 @@ const LandingPage = ({ user, onLogout }) => {
 
         <div className="testimonials-grid">
           {[
-            { text: "ServiConnect made finding a reliable electrician so easy. The booking process was smooth, and the professional arrived on time. Highly recommend!", name: "Jennifer Martinez", role: "Homeowner", initial: "J" },
-            { text: "I use ServiConnect for all my office maintenance needs. The quality of service providers here is exceptional. It's saved me so much time and hassle.", name: "Robert Thompson", role: "Business Owner", initial: "R" },
+            { text: "ServicePro made finding a reliable electrician so easy. The booking process was smooth, and the professional arrived on time. Highly recommend!", name: "Jennifer Martinez", role: "Homeowner", initial: "J" },
+            { text: "I use ServicePro for all my office maintenance needs. The quality of service providers here is exceptional. It's saved me so much time and hassle.", name: "Robert Thompson", role: "Business Owner", initial: "R" },
             { text: "As someone with a busy schedule, having beauty services come to my home is a game-changer. The professionals are talented and punctual.", name: "Priya Sharma", role: "Working Professional", initial: "P" }
           ].map((review, idx) => (
             <div className="testimonial-card" key={idx}>
