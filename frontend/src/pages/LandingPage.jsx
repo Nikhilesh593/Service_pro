@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { FASTLANE_SERVICES } from '../components/BookingWizard';
 import { 
   Wrench, 
   Search, 
@@ -26,14 +27,17 @@ import BookingWizard from '../components/BookingWizard';
 import '../components/BookingWizard.css';
 import './LandingPage.css';
 
-const LandingPage = ({ user }) => {
+const LandingPage = ({ user, onLogout }) => {
   const navigate = useNavigate();
   const [wizardOpen, setWizardOpen] = useState(false);
 
-  const openBooking = () => {
+  const [selectedService, setSelectedService] = useState(null);
+
+  const openBooking = (service = null) => {
     if (!user) {
       navigate('/login');
     } else {
+      setSelectedService(service);
       setWizardOpen(true);
     }
   };
@@ -55,8 +59,19 @@ const LandingPage = ({ user }) => {
           <a href="#reviews">Reviews</a>
         </div>
         <div className="nav-actions">
-          <Link to="/login" className="login-btn">Log In</Link>
-          <button className="btn-orange" onClick={() => navigate('/register')}>Get Started</button>
+          {user ? (
+            <>
+              <span className="lp-user-greeting">👋 {user.name}</span>
+              <Link to={`/${user.role}-dashboard`} className="lp-dashboard-btn">My Dashboard</Link>
+              <button className="btn-orange lp-book-now-btn" onClick={openBooking}>Book a Service</button>
+              <button className="lp-logout-btn" onClick={onLogout}>Logout</button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="login-btn">Log In</Link>
+              <button className="btn-orange" onClick={() => navigate('/register')}>Get Started</button>
+            </>
+          )}
         </div>
       </nav>
 
@@ -86,7 +101,7 @@ const LandingPage = ({ user }) => {
               <MapPin size={20} />
               <input type="text" placeholder="Your location" />
             </div>
-            <button className="btn-orange" style={{ padding: '16px 32px' }}>Search</button>
+            <button className="btn-orange" style={{ padding: '16px 32px' }} onClick={openBooking}>Book Now</button>
           </div>
         </div>
         
@@ -126,23 +141,14 @@ const LandingPage = ({ user }) => {
         </p>
 
         <div className="categories-grid">
-          {[
-            { icon: <Zap size={24} />, title: "Electrical", desc: "Wiring, repairs, installations & more", count: "120+ providers", colorClass: "icon-yellow" },
-            { icon: <Droplet size={24} />, title: "Plumbing", desc: "Pipes, fixtures, drainage solutions", count: "95+ providers", colorClass: "icon-blue" },
-            { icon: <Sparkles size={24} />, title: "Home Cleaning", desc: "Deep cleaning, regular maintenance", count: "200+ providers", colorClass: "icon-green" },
-            { icon: <Settings size={24} />, title: "Appliance Repair", desc: "AC, fridge, washing machine fixes", count: "85+ providers", colorClass: "icon-gray" },
-            { icon: <Scissors size={24} />, title: "Beauty Services", desc: "Salon at home, makeup, styling", count: "150+ providers", colorClass: "icon-pink" },
-            { icon: <BookOpen size={24} />, title: "Tutoring", desc: "Academic, music, language lessons", count: "110+ providers", colorClass: "icon-purple" },
-            { icon: <Car size={24} />, title: "Vehicle Repair", desc: "Mechanics, detailing, breakdown", count: "75+ providers", colorClass: "icon-red" },
-            { icon: <Bug size={24} />, title: "Pest Control", desc: "Termites, rodents, insect removal", count: "60+ providers", colorClass: "icon-lime" }
-          ].map((cat, idx) => (
-            <div className="category-card lp-clickable" key={idx} onClick={openBooking}>
-              <div className={`category-icon ${cat.colorClass}`}>
-                {cat.icon}
+          {FASTLANE_SERVICES.map((svc) => (
+            <div className="category-card lp-clickable" key={svc.id} onClick={() => openBooking(svc)}>
+              <div className={`category-icon icon-gray`}>
+                <span style={{ fontSize: '1.5rem' }}>{svc.icon}</span>
               </div>
-              <h3>{cat.title}</h3>
-              <p>{cat.desc}</p>
-              <div className="category-stats">{cat.count}</div>
+              <h3>{svc.name}</h3>
+              <p style={{ color: 'var(--primary-teal)', fontWeight: 'bold' }}>{svc.price}</p>
+              <div className="category-stats"><Clock size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }}/> {svc.time}</div>
               <div className="lp-book-hint">Tap to Book →</div>
             </div>
           ))}
@@ -259,6 +265,7 @@ const LandingPage = ({ user }) => {
         onClose={() => setWizardOpen(false)}
         onSuccess={() => setWizardOpen(false)}
         user={user}
+        initialService={selectedService}
       />
     </div>
   );

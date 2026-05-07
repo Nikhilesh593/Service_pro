@@ -25,12 +25,13 @@ function AppContent() {
     setUser(null);
   };
 
-  const isLandingPage = location.pathname === '/' && !user;
+  const isLandingPage = location.pathname === '/';
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+  const isDashboard = location.pathname.includes('-dashboard');
 
   return (
     <div className="app-container">
-      {user && !isAuthPage && <Navbar user={user} onLogout={handleLogout} />}
+      {user && isDashboard && <Navbar user={user} onLogout={handleLogout} />}
       <main style={
         isAuthPage
           ? { flex: 1, width: '100%', padding: 0, maxWidth: 'none', margin: 0 }
@@ -47,7 +48,7 @@ function AppContent() {
           <Route path="/organization-dashboard" element={user?.role === 'organization' || user?.role === 'technician' ? <TechnicianDashboard user={user} /> : <Navigate to="/login" />} />
           <Route path="/admin-dashboard" element={user?.role === 'admin' ? <AdminDashboard user={user} /> : <Navigate to="/login" />} />
 
-          <Route path="/" element={user ? <Navigate to={`/${user.role}-dashboard`} /> : <LandingPage user={user} />} />
+          <Route path="/" element={<LandingPage user={user} onLogout={handleLogout} />} />
         </Routes>
       </main>
     </div>

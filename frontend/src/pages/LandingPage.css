@@ -703,3 +703,25 @@
   opacity: 0; transform: translateY(4px); transition: opacity 0.2s, transform 0.2s;
 }
 .lp-clickable:hover .lp-book-hint { opacity: 1; transform: translateY(0); }
+
+/* ── Logged-in user navbar items ──────────────────────────────── */
+.lp-user-greeting {
+  font-size: 0.875rem; font-weight: 600; color: #374151;
+  display: flex; align-items: center; gap: 4px;
+}
+.lp-dashboard-btn {
+  font-size: 0.875rem; font-weight: 600; color: #0d9488;
+  padding: 8px 16px; border-radius: 8px;
+  border: 1.5px solid #0d9488; transition: all 0.2s;
+  display: inline-flex; align-items: center;
+}
+.lp-dashboard-btn:hover { background: #f0fdfa; }
+.lp-book-now-btn { padding: 8px 18px !important; font-size: 0.875rem !important; }
+.lp-logout-btn {
+  background: transparent; border: 1.5px solid #e5e7eb;
+  border-radius: 8px; padding: 8px 14px;
+  font-size: 0.875rem; font-weight: 600; color: #6b7280;
+  cursor: pointer; transition: all 0.2s;
+}
+.lp-logout-btn:hover { border-color: #ef4444; color: #ef4444; background: #fff5f5; }
+
