@@ -29,6 +29,10 @@ const notifyTechnicians = async (request) => {
 
 exports.createRequest = async (req, res) => {
   try {
+    console.log('--- Incoming Request ---');
+    console.log('req.body:', req.body);
+    console.log('req.file:', req.file);
+
     const { serviceType, description, location, urgency } = req.body;
 
     // If multer processed a file, build a public URL path
@@ -54,9 +58,13 @@ exports.getMyRequests = async (req, res) => {
   try {
     let requests;
     if (req.user.role === 'customer') {
-      requests = await ServiceRequest.find({ userId: req.user._id }).populate('assignedTo', 'name email role phone');
+      requests = await ServiceRequest.find({ userId: req.user._id })
+        .populate('assignedTo', 'name email role phone')
+        .sort({ createdAt: 1 });
     } else {
-      requests = await ServiceRequest.find({ assignedTo: req.user._id }).populate('userId', 'name email phone location');
+      requests = await ServiceRequest.find({ assignedTo: req.user._id })
+        .populate('userId', 'name email phone location')
+        .sort({ createdAt: 1 });
     }
     res.json(requests);
   } catch (error) {
@@ -70,7 +78,9 @@ exports.getAllRequests = async (req, res) => {
     const requests = await ServiceRequest.find({
       status: 'pending',
       rejectedBy: { $ne: req.user._id }
-    }).populate('userId', 'name email location phone');
+    })
+      .populate('userId', 'name email location phone')
+      .sort({ createdAt: 1 });
     res.json(requests);
   } catch (error) {
     res.status(500).json({ message: error.message });
