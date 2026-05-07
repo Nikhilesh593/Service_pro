@@ -687,7 +687,19 @@
   }
   .providers-header {
     flex-direction: column;
-    align-items: flex-start;
     gap: 16px;
   }
 }
+
+/* ── Clickable category cards (booking trigger) ───────────────── */
+.lp-clickable { cursor: pointer; position: relative; overflow: hidden; }
+.lp-clickable:hover {
+  border-color: #f97316 !important;
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(249,115,22,0.12);
+}
+.lp-book-hint {
+  margin-top: 12px; font-size: 0.78rem; font-weight: 700; color: #f97316;
+  opacity: 0; transform: translateY(4px); transition: opacity 0.2s, transform 0.2s;
+}
+.lp-clickable:hover .lp-book-hint { opacity: 1; transform: translateY(0); }

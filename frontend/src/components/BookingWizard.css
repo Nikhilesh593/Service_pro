@@ -1,0 +1,204 @@
+/* ── Overlay & Modal ───────────────────────────────────────────── */
+.cd-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+}
+.cd-modal {
+  background: #fff; border-radius: 24px;
+  width: 100%; max-width: 720px; max-height: 90vh;
+  overflow-y: auto; position: relative;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+  animation: cdModalIn 0.3s ease;
+}
+@keyframes cdModalIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.cd-modal-close {
+  position: absolute; top: 16px; right: 16px; z-index: 10;
+  background: rgba(255,255,255,0.3); border: none; border-radius: 50%;
+  width: 36px; height: 36px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; color: #fff;
+  transition: background 0.2s;
+}
+.cd-modal-close:hover { background: rgba(0,0,0,0.2); }
+
+/* ── Welcome Banner ────────────────────────────────────────────── */
+.cd-welcome-banner {
+  background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+  padding: 14px 24px; display: flex; align-items: center;
+  gap: 10px; flex-wrap: wrap; border-radius: 24px 24px 0 0;
+  color: #fff; font-size: 0.9rem;
+}
+.cd-welcome-note {
+  margin-left: auto; font-size: 0.75rem; opacity: 0.85;
+  background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 99px;
+}
+
+/* ── Step Indicator ────────────────────────────────────────────── */
+.cd-steps {
+  display: flex; align-items: center;
+  padding: 20px 28px 0; gap: 0;
+}
+.cd-step { display: flex; align-items: center; gap: 6px; position: relative; flex-shrink: 0; }
+.cd-step-circle {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 700;
+  border: 2px solid #e5e7eb; color: #9ca3af; background: #fff;
+  transition: all 0.3s;
+}
+.cd-step.active .cd-step-circle { border-color: #f97316; color: #f97316; background: #fff7ed; }
+.cd-step.done   .cd-step-circle { border-color: #10b981; color: #10b981; background: #d1fae5; }
+.cd-step-label { font-size: 0.78rem; font-weight: 600; color: #9ca3af; white-space: nowrap; }
+.cd-step.active .cd-step-label { color: #f97316; }
+.cd-step.done   .cd-step-label { color: #10b981; }
+.cd-step-line { flex: 1; height: 2px; background: #e5e7eb; min-width: 24px; margin: 0 8px; transition: background 0.3s; }
+.cd-step-line.done { background: #10b981; }
+
+/* ── Step Body ─────────────────────────────────────────────────── */
+.cd-step-body { padding: 20px 28px 0; }
+.cd-step-heading { font-size: 1.25rem; font-weight: 700; color: #1a1a2e; margin: 0 0 18px; text-align: center; }
+
+/* ── Service Grid ──────────────────────────────────────────────── */
+.cd-service-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px; max-height: 420px; overflow-y: auto; padding-right: 4px;
+}
+.cd-service-card {
+  background: #f9fafb; border: 2px solid #e5e7eb;
+  border-radius: 14px; padding: 14px 10px 12px;
+  cursor: pointer; text-align: center; transition: all 0.2s; position: relative;
+}
+.cd-service-card:hover { border-color: #f97316; background: #fff7ed; transform: translateY(-2px); }
+.cd-service-card.selected { border-color: #f97316; background: #fff7ed; box-shadow: 0 0 0 3px rgba(249,115,22,0.15); }
+.cd-svc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.cd-svc-num { font-size: 0.7rem; font-weight: 800; color: #9ca3af; }
+.cd-svc-tag { font-size: 0.58rem; font-weight: 800; padding: 2px 6px; border-radius: 99px; letter-spacing: 0.3px; text-transform: uppercase; }
+.cd-tag-FAST    { background: #fef3c7; color: #d97706; }
+.cd-tag-POPULAR { background: #dbeafe; color: #2563eb; }
+.cd-tag-MACHINE { background: #ede9fe; color: #7c3aed; }
+.cd-tag-RENTAL  { background: #d1fae5; color: #059669; }
+.cd-tag-CUSTOM  { background: #fee2e2; color: #dc2626; }
+.cd-svc-icon  { font-size: 1.8rem; margin-bottom: 6px; }
+.cd-svc-name  { font-size: 0.78rem; font-weight: 700; color: #1a1a2e; line-height: 1.3; margin-bottom: 4px; }
+.cd-svc-price { font-size: 0.82rem; font-weight: 700; color: #f97316; margin-bottom: 3px; }
+.cd-svc-time  { font-size: 0.68rem; color: #9ca3af; display: flex; align-items: center; justify-content: center; gap: 3px; }
+
+/* ── Provider List ─────────────────────────────────────────────── */
+.cd-provider-list { display: flex; flex-direction: column; gap: 12px; max-height: 400px; overflow-y: auto; }
+.cd-provider-card {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px; border: 2px solid #e5e7eb; border-radius: 14px;
+  cursor: pointer; background: #f9fafb; transition: all 0.2s;
+}
+.cd-provider-card:hover    { border-color: #f97316; background: #fff7ed; }
+.cd-provider-card.selected { border-color: #f97316; background: #fff7ed; box-shadow: 0 0 0 3px rgba(249,115,22,0.15); }
+.cd-prov-avatar {
+  width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff; font-weight: 700; font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+}
+.cd-prov-info { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.cd-prov-name { font-weight: 700; font-size: 0.95rem; color: #1a1a2e; }
+.cd-prov-role { font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 99px; display: inline-flex; align-items: center; gap: 3px; width: fit-content; }
+.cd-role-technician   { background: #fef3c7; color: #d97706; }
+.cd-role-organization { background: #ede9fe; color: #7c3aed; }
+.cd-prov-addr  { font-size: 0.78rem; color: #9ca3af; }
+.cd-prov-check { color: #10b981; margin-left: auto; flex-shrink: 0; }
+.cd-loading { text-align: center; padding: 40px; color: #9ca3af; }
+.cd-empty-providers { text-align: center; padding: 40px; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 1.5rem; }
+
+/* ── Details Step ──────────────────────────────────────────────── */
+.cd-selected-summary {
+  display: flex; justify-content: space-between; align-items: center;
+  background: #fff7ed; border: 1px solid #fed7aa; border-radius: 10px;
+  padding: 10px 16px; margin-bottom: 18px; font-weight: 600; font-size: 0.9rem; color: #1a1a2e;
+}
+.cd-selected-price { color: #f97316; font-size: 1rem; font-weight: 800; }
+
+.cd-form-group { margin-bottom: 16px; }
+.cd-form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #374151; margin-bottom: 6px; }
+.cd-form-group textarea,
+.cd-form-group input[type="text"],
+.cd-form-group input[type="tel"] {
+  width: 100%; border: 1.5px solid #e5e7eb; border-radius: 10px;
+  padding: 10px 14px; font-size: 0.9rem; font-family: inherit;
+  background: #f9fafb; transition: border-color 0.2s, box-shadow 0.2s;
+  resize: vertical; box-sizing: border-box;
+}
+.cd-form-group textarea:focus,
+.cd-form-group input[type="text"]:focus,
+.cd-form-group input[type="tel"]:focus {
+  outline: none; border-color: #f97316; box-shadow: 0 0 0 3px rgba(249,115,22,0.1);
+}
+.cd-form-group input[type="file"] { width: 100%; font-size: 0.85rem; color: #6b7280; }
+.cd-photo-name { font-size: 0.8rem; color: #6b7280; margin-top: 4px; display: block; }
+.req { color: #ef4444; }
+.opt { color: #9ca3af; font-weight: 400; font-size: 0.8rem; }
+
+/* ── Order Summary ─────────────────────────────────────────────── */
+.cd-order-summary {
+  background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 12px;
+  padding: 16px; margin-bottom: 20px;
+}
+.cd-order-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 0; font-size: 0.875rem; border-bottom: 1px solid #f1f5f9;
+}
+.cd-order-row:last-of-type { border-bottom: none; }
+.cd-order-row span  { color: #6b7280; }
+.cd-order-row strong { color: #1a1a2e; }
+.cd-order-note { margin-top: 8px; font-size: 0.78rem; color: #f97316; font-weight: 600; text-align: center; }
+
+/* ── Modal Footer ──────────────────────────────────────────────── */
+.cd-modal-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 28px 24px;
+}
+.cd-btn-back {
+  display: flex; align-items: center; gap: 4px;
+  background: transparent; border: 1.5px solid #e5e7eb; border-radius: 50px;
+  padding: 10px 20px; font-size: 0.875rem; font-weight: 600; color: #6b7280;
+  cursor: pointer; transition: all 0.2s;
+}
+.cd-btn-back:hover { border-color: #9ca3af; color: #374151; }
+.cd-btn-next {
+  display: flex; align-items: center; gap: 4px;
+  background: linear-gradient(135deg, #f97316, #ef4444);
+  color: #fff; border: none; border-radius: 50px;
+  padding: 10px 28px; font-size: 0.9rem; font-weight: 700;
+  cursor: pointer; box-shadow: 0 4px 14px rgba(249,115,22,0.35); transition: all 0.2s;
+}
+.cd-btn-next:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(249,115,22,0.45); }
+.cd-btn-next:disabled { opacity: 0.45; cursor: not-allowed; }
+.cd-btn-submit {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff; border: none; border-radius: 50px;
+  padding: 12px 32px; font-size: 0.95rem; font-weight: 700;
+  cursor: pointer; box-shadow: 0 4px 14px rgba(16,185,129,0.35); transition: all 0.2s;
+}
+.cd-btn-submit:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(16,185,129,0.45); }
+.cd-btn-submit:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ── Scrollbar ─────────────────────────────────────────────────── */
+.cd-service-grid::-webkit-scrollbar,
+.cd-provider-list::-webkit-scrollbar,
+.cd-modal::-webkit-scrollbar { width: 5px; }
+.cd-service-grid::-webkit-scrollbar-thumb,
+.cd-provider-list::-webkit-scrollbar-thumb,
+.cd-modal::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 99px; }
+
+/* ── Responsive ────────────────────────────────────────────────── */
+@media (max-width: 500px) {
+  .cd-modal { border-radius: 18px 18px 0 0; }
+  .cd-overlay { align-items: flex-end; }
+  .cd-step-label { display: none; }
+  .cd-service-grid { grid-template-columns: repeat(2, 1fr); }
+  .cd-step-body { padding: 16px 16px 0; }
+  .cd-modal-footer { padding: 16px; }
+}

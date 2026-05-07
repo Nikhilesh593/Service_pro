@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   Wrench, 
@@ -22,10 +22,21 @@ import {
   Clock,
   MapPin as MapPinIcon
 } from 'lucide-react';
+import BookingWizard from '../components/BookingWizard';
+import '../components/BookingWizard.css';
 import './LandingPage.css';
 
-const LandingPage = () => {
+const LandingPage = ({ user }) => {
   const navigate = useNavigate();
+  const [wizardOpen, setWizardOpen] = useState(false);
+
+  const openBooking = () => {
+    if (!user) {
+      navigate('/login');
+    } else {
+      setWizardOpen(true);
+    }
+  };
 
   return (
     <div className="landing-page">
@@ -125,13 +136,14 @@ const LandingPage = () => {
             { icon: <Car size={24} />, title: "Vehicle Repair", desc: "Mechanics, detailing, breakdown", count: "75+ providers", colorClass: "icon-red" },
             { icon: <Bug size={24} />, title: "Pest Control", desc: "Termites, rodents, insect removal", count: "60+ providers", colorClass: "icon-lime" }
           ].map((cat, idx) => (
-            <div className="category-card" key={idx}>
+            <div className="category-card lp-clickable" key={idx} onClick={openBooking}>
               <div className={`category-icon ${cat.colorClass}`}>
                 {cat.icon}
               </div>
               <h3>{cat.title}</h3>
               <p>{cat.desc}</p>
               <div className="category-stats">{cat.count}</div>
+              <div className="lp-book-hint">Tap to Book →</div>
             </div>
           ))}
         </div>
@@ -201,7 +213,7 @@ const LandingPage = () => {
               </div>
               <div className="provider-footer">
                 <div className="provider-price">{provider.price}<span>/hr</span></div>
-                <button className="btn-teal">Book Now</button>
+                <button className="btn-teal" onClick={openBooking}>Book Now</button>
               </div>
             </div>
           ))}
@@ -241,6 +253,13 @@ const LandingPage = () => {
           ))}
         </div>
       </section>
+      {/* Booking Wizard — works from landing page */}
+      <BookingWizard
+        isOpen={wizardOpen}
+        onClose={() => setWizardOpen(false)}
+        onSuccess={() => setWizardOpen(false)}
+        user={user}
+      />
     </div>
   );
 };

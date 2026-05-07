@@ -47,7 +47,7 @@ function AppContent() {
           <Route path="/organization-dashboard" element={user?.role === 'organization' || user?.role === 'technician' ? <TechnicianDashboard user={user} /> : <Navigate to="/login" />} />
           <Route path="/admin-dashboard" element={user?.role === 'admin' ? <AdminDashboard user={user} /> : <Navigate to="/login" />} />
 
-          <Route path="/" element={user ? <Navigate to={`/${user.role}-dashboard`} /> : <LandingPage />} />
+          <Route path="/" element={user ? <Navigate to={`/${user.role}-dashboard`} /> : <LandingPage user={user} />} />
         </Routes>
       </main>
     </div>
