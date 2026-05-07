@@ -1,55 +1,302 @@
-/* ── Root ─────────────────────────────────────────────────────── */
-.cd-root { padding: 0; }
-
-/* ── Header ───────────────────────────────────────────────────── */
-.cd-header {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 28px; flex-wrap: wrap; gap: 12px;
+/* ── Layout ─────────────────────────────────────────────────────── */
+.cd-layout {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  font-family: 'Inter', sans-serif;
 }
-.cd-title   { font-size: 1.6rem; font-weight: 700; margin: 0; color: var(--text, #1a1a2e); }
-.cd-subtitle{ font-size: 0.875rem; color: var(--text-muted, #6b7280); margin: 4px 0 0; }
 
-.cd-btn-new {
-  display: flex; align-items: center; gap: 8px;
-  background: linear-gradient(135deg, #f97316, #ef4444);
-  color: #fff; border: none; border-radius: 50px;
-  padding: 10px 22px; font-size: 0.9rem; font-weight: 600;
-  cursor: pointer; box-shadow: 0 4px 14px rgba(249,115,22,0.4);
-  transition: transform 0.15s, box-shadow 0.15s;
+/* ── Sidebar ───────────────────────────────────────────────────── */
+.cd-sidebar {
+  width: 280px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 32px 0;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  border: 1px solid #f1f5f9;
 }
-.cd-btn-new:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(249,115,22,0.5); }
 
-/* ── Request Cards ─────────────────────────────────────────────── */
-.cd-cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-
-.cd-req-card {
-  background: #fff; border-radius: 16px; padding: 20px;
-  border: 1px solid #e5e7eb; box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-  transition: transform 0.2s, box-shadow 0.2s;
+.cd-sidebar-profile {
+  text-align: center;
+  padding: 0 24px 24px;
+  border-bottom: 1px solid #f1f5f9;
 }
-.cd-req-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
 
-.cd-req-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-.cd-service-name { font-weight: 700; font-size: 1rem; color: #1a1a2e; display: block; }
-.cd-service-price{ font-size: 0.8rem; color: #f97316; font-weight: 600; }
-.cd-req-desc { font-size: 0.875rem; color: #6b7280; margin-bottom: 10px; line-height: 1.5; }
-.cd-req-meta { display: flex; flex-direction: column; gap: 4px; font-size: 0.8rem; color: #9ca3af; margin-bottom: 14px; }
-
-.cd-badge { font-size: 0.7rem; font-weight: 700; padding: 4px 10px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.5px; }
-.cd-badge-pending  { background: #fef3c7; color: #d97706; }
-.cd-badge-accepted { background: #dbeafe; color: #2563eb; }
-.cd-badge-completed{ background: #d1fae5; color: #059669; }
-.cd-badge-rejected { background: #fee2e2; color: #dc2626; }
-
-.cd-btn-pdf {
-  display: flex; align-items: center; gap: 6px; width: 100%; justify-content: center;
-  background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb;
-  border-radius: 8px; padding: 8px; font-size: 0.8rem; font-weight: 600;
-  cursor: pointer; transition: background 0.2s;
+.cd-avatar {
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  background: #69F0AE; /* specific light green from screenshot */
+  color: #1e293b;
+  font-size: 32px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
 }
-.cd-btn-pdf:hover { background: #e5e7eb; }
 
-.cd-empty {
-  grid-column: 1/-1; text-align: center; padding: 60px 20px; color: #9ca3af;
-  display: flex; flex-direction: column; align-items: center; gap: 12px;
+.cd-user-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px;
+}
+
+.cd-user-email {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.cd-sidebar-nav {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.cd-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 16px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.cd-nav-item:hover {
+  background: #f8fafc;
+}
+
+.cd-nav-item.active {
+  color: #f97316; /* orange */
+}
+
+.cd-nav-item.active svg {
+  color: #f97316;
+}
+
+.cd-sidebar-footer {
+  padding: 24px 24px 0;
+}
+
+.cd-logout-btn:hover {
+  color: #ef4444;
+}
+.cd-logout-btn:hover svg {
+  color: #ef4444;
+}
+
+/* ── Main Content ──────────────────────────────────────────────── */
+.cd-main-content {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 32px 40px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  border: 1px solid #f1f5f9;
+}
+
+.cd-main-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.cd-main-title {
+  text-align: center;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.cd-btn-new-small {
+  position: absolute;
+  right: 0;
+  display: flex; align-items: center; gap: 6px;
+  background: #fff7ed; color: #f97316;
+  border: 1px solid #fed7aa; border-radius: 50px;
+  padding: 8px 16px; font-size: 0.85rem; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.cd-btn-new-small:hover { background: #ffedd5; }
+
+/* Tabs */
+.cd-tabs {
+  display: flex;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 28px;
+}
+
+.cd-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.cd-tab:hover {
+  color: #1e293b;
+}
+
+.cd-tab.active {
+  color: #f97316;
+  border-bottom-color: #f97316;
+}
+
+/* Booking List */
+.cd-booking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cd-empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #94a3b8;
+  font-size: 1.05rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px dashed #cbd5e1;
+}
+
+/* Booking Card */
+.cd-booking-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 24px;
+  background: #ffffff;
+  transition: box-shadow 0.2s;
+}
+.cd-booking-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.cd-booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.cd-booking-service {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #334155;
+  margin: 0;
+}
+
+.cd-booking-status {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-pending, .status-accepted {
+  background: #bae6fd; /* light blue */
+  color: #0369a1; /* deeper blue */
+}
+
+.status-completed {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-cancelled, .status-rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.cd-booking-provider {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.cd-booking-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.cd-booking-date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.cd-booking-price {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #f97316;
+}
+
+.cd-booking-actions {
+  display: flex;
+}
+
+.cd-btn-action {
+  width: 100%;
+  background: transparent;
+  border: 1px solid #f97316;
+  color: #f97316;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cd-btn-action:hover {
+  background: #fff7ed;
+}
+
+/* ── Responsive ────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .cd-layout {
+    flex-direction: column;
+  }
+  .cd-sidebar {
+    width: 100%;
+  }
+  .cd-btn-new-small {
+    position: static;
+    margin-left: auto;
+  }
+  .cd-main-header {
+    justify-content: flex-start;
+    gap: 16px;
+  }
 }
