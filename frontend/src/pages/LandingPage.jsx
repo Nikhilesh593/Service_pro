@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FASTLANE_SERVICES } from '../components/BookingWizard';
+import api from '../utils/api';
 import { 
   Wrench, 
   Search, 
@@ -32,6 +33,8 @@ const LandingPage = ({ user, onLogout }) => {
   const [wizardOpen, setWizardOpen] = useState(false);
 
   const [selectedService, setSelectedService] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isDetecting, setIsDetecting] = useState(false);
 
   const openBooking = (service = null) => {
     if (!user) {
@@ -39,6 +42,28 @@ const LandingPage = ({ user, onLogout }) => {
     } else {
       setSelectedService(service);
       setWizardOpen(true);
+    }
+  };
+
+  const handleSearch = async () => {
+    if (!searchQuery.trim()) return;
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    
+    setIsDetecting(true);
+    try {
+      const res = await api.post('/ai/suggest-service', { problemText: searchQuery });
+      const { serviceId } = res.data;
+      
+      const matchedService = FASTLANE_SERVICES.find(s => s.id === serviceId) || FASTLANE_SERVICES[1];
+      openBooking(matchedService);
+    } catch (error) {
+      console.error(error);
+      openBooking(FASTLANE_SERVICES[1]); // Default to general visit on error
+    } finally {
+      setIsDetecting(false);
     }
   };
 
@@ -99,13 +124,26 @@ const LandingPage = ({ user, onLogout }) => {
           <div className="search-bar">
             <div className="search-input-group">
               <Search size={20} />
-              <input type="text" placeholder="What service do you need?" />
+              <input 
+                type="text" 
+                placeholder="e.g. My fan is not working" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+              />
             </div>
             <div className="search-input-group">
               <MapPin size={20} />
               <input type="text" placeholder="Your location" />
             </div>
-            <button className="btn-orange" style={{ padding: '16px 32px' }} onClick={openBooking}>Book Now</button>
+            <button 
+              className="btn-orange" 
+              style={{ padding: '16px 32px' }} 
+              onClick={searchQuery.trim() ? handleSearch : openBooking}
+              disabled={isDetecting}
+            >
+              {isDetecting ? 'Detecting...' : 'Book Now'}
+            </button>
           </div>
         </div>
         
