@@ -7,8 +7,16 @@ const generateToken = (id) => {
 
 exports.register = async (req, res) => {
   try {
-    const { name, email, password, role, documents } = req.body;
-    
+    console.log('--- REGISTER HIT ---');
+    console.log('req.body:', req.body);
+    console.log('req.file:', req.file);
+
+    const { name, email, password, role, phone, address, services } = req.body;
+
+    if (!name || !email || !password || !role) {
+      return res.status(400).json({ message: 'Name, email, password and role are required.' });
+    }
+
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: 'User already exists' });
@@ -17,8 +25,25 @@ exports.register = async (req, res) => {
     // Auto-approve customers, others pending
     const status = (role === 'customer' || role === 'admin') ? 'approved' : 'pending';
 
+    // Build the document path if a file was uploaded
+    const documentPath = req.file ? `/uploads/docs/${req.file.filename}` : undefined;
+
+    // Parse services JSON string if provided
+    let parsedServices;
+    if (services) {
+      try { parsedServices = JSON.parse(services); } catch { parsedServices = []; }
+    }
+
     const user = await User.create({
-      name, email, password, role, status, documents
+      name,
+      email,
+      password,
+      role,
+      status,
+      phone,
+      address,
+      ...(documentPath && { documents: [documentPath] }),
+      ...(parsedServices && { services: parsedServices }),
     });
 
     res.status(201).json({

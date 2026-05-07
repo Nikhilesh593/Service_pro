@@ -7,11 +7,10 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, enum: ['customer', 'technician', 'organization', 'admin'], required: true },
   status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
-  documents: {
-    license: String,
-    certificate: String,
-    businessProof: String
-  }
+  phone: { type: String },
+  address: { type: String },
+  documents: [{ type: String }],   // array of file paths/URLs
+  services: [{ type: mongoose.Schema.Types.Mixed }], // array of service objects
 }, { timestamps: true });
 
 userSchema.pre('save', async function() {
