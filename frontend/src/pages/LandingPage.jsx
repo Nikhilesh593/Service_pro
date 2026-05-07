@@ -96,6 +96,13 @@ const LandingPage = ({ user, onLogout }) => {
 
   return (
     <div className="landing-page">
+      {/* Animated Background Blobs */}
+      <div className="lp-bg-blobs">
+        <div className="lp-blob lp-blob-1"></div>
+        <div className="lp-blob lp-blob-2"></div>
+        <div className="lp-blob lp-blob-3"></div>
+      </div>
+
       {/* Navigation */}
       <nav className="landing-navbar">
         <Link to="/" className="logo">
@@ -189,27 +196,43 @@ const LandingPage = ({ user, onLogout }) => {
         </div>
         
         <div className="hero-images">
-          <div className="hero-image-card img-1">
-            <div className="image-placeholder" style={{ backgroundColor: '#fed7aa' }}></div>
-            <div className="hero-card-content">
-              <h4>Electrical Services</h4>
-              <p><Star size={14} fill="currentColor" /> 4.9 • 120+ providers</p>
+          <div className="hero-image-grid">
+            <div className="hero-image-card">
+              <img src="/images/electrician.png" alt="Electrician" className="grid-img" />
+              <div className="hero-card-content">
+                <h4>Electrician</h4>
+                <p><Star size={14} fill="currentColor" /> 4.9 • 120+ providers</p>
+              </div>
             </div>
-          </div>
-          <div className="hero-image-card img-2">
-            <div className="image-placeholder" style={{ backgroundColor: '#e2e8f0' }}></div>
-            <div className="hero-card-content">
-              <h4>Beauty & Wellness</h4>
-              <p><Star size={14} fill="currentColor" /> 4.8 • 85+ providers</p>
+            <div className="hero-image-card">
+              <img src="/images/ac_repair.png" alt="AC Repairing" className="grid-img" />
+              <div className="hero-card-content">
+                <h4>AC Repairing</h4>
+                <p><Star size={14} fill="currentColor" /> 4.8 • 85+ providers</p>
+              </div>
             </div>
-          </div>
-          <div className="verified-badge-card">
-            <div className="verified-icon">
-              <ShieldCheck size={24} />
+            <div className="hero-image-card">
+              <img src="/images/janitorial.png" alt="Janitorial" className="grid-img" />
+              <div className="hero-card-content">
+                <h4>Janitorial</h4>
+                <p><Star size={14} fill="currentColor" /> 4.7 • 95+ providers</p>
+              </div>
             </div>
-            <div className="verified-text">
-              <h4>100% Verified</h4>
-              <p>Background checked</p>
+            <div className="hero-image-card">
+              <img src="/images/two_wheeler.png" alt="2-Wheeler Service" className="grid-img" />
+              <div className="hero-card-content">
+                <h4>2-Wheeler Service</h4>
+                <p><Star size={14} fill="currentColor" /> 4.9 • 110+ providers</p>
+              </div>
+            </div>
+            <div className="verified-badge-card centered-badge">
+              <div className="verified-icon">
+                <ShieldCheck size={24} />
+              </div>
+              <div className="verified-text">
+                <h4>100% Verified</h4>
+                <p>Background checked</p>
+              </div>
             </div>
           </div>
         </div>
