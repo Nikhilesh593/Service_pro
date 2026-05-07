@@ -61,10 +61,14 @@ const LandingPage = ({ user, onLogout }) => {
         <div className="nav-actions">
           {user ? (
             <>
-              <span className="lp-user-greeting">👋 {user.name}</span>
-              <Link to={`/${user.role}-dashboard`} className="lp-dashboard-btn">My Dashboard</Link>
               <button className="btn-orange lp-book-now-btn" onClick={openBooking}>Book a Service</button>
-              <button className="lp-logout-btn" onClick={onLogout}>Logout</button>
+              <div className="lp-user-menu-container">
+                <span className="lp-user-greeting">👋 {user.name}</span>
+                <div className="lp-user-dropdown">
+                  <Link to={`/${user.role}-dashboard`} className="lp-dropdown-item">My Dashboard</Link>
+                  <button className="lp-dropdown-item" onClick={onLogout}>Logout</button>
+                </div>
+              </div>
             </>
           ) : (
             <>

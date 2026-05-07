@@ -705,23 +705,53 @@
 .lp-clickable:hover .lp-book-hint { opacity: 1; transform: translateY(0); }
 
 /* ── Logged-in user navbar items ──────────────────────────────── */
+.lp-user-menu-container {
+  position: relative;
+  display: inline-block;
+}
 .lp-user-greeting {
-  font-size: 0.875rem; font-weight: 600; color: #374151;
-  display: flex; align-items: center; gap: 4px;
+  font-size: 0.9rem; font-weight: 600; color: #374151;
+  display: flex; align-items: center; gap: 8px;
+  cursor: pointer; padding: 8px 12px; border-radius: 8px;
+  transition: background 0.2s;
 }
-.lp-dashboard-btn {
-  font-size: 0.875rem; font-weight: 600; color: #0d9488;
-  padding: 8px 16px; border-radius: 8px;
-  border: 1.5px solid #0d9488; transition: all 0.2s;
-  display: inline-flex; align-items: center;
+.lp-user-greeting:hover {
+  background: #f1f5f9;
 }
-.lp-dashboard-btn:hover { background: #f0fdfa; }
-.lp-book-now-btn { padding: 8px 18px !important; font-size: 0.875rem !important; }
-.lp-logout-btn {
-  background: transparent; border: 1.5px solid #e5e7eb;
-  border-radius: 8px; padding: 8px 14px;
-  font-size: 0.875rem; font-weight: 600; color: #6b7280;
-  cursor: pointer; transition: all 0.2s;
+.lp-user-dropdown {
+  position: absolute;
+  top: 100%; right: 0;
+  margin-top: 8px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  min-width: 160px;
+  opacity: 0; visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.2s;
+  z-index: 1000;
+  display: flex; flex-direction: column;
 }
-.lp-logout-btn:hover { border-color: #ef4444; color: #ef4444; background: #fff5f5; }
+.lp-user-menu-container:hover .lp-user-dropdown {
+  opacity: 1; visibility: visible;
+  transform: translateY(0);
+}
+.lp-dropdown-item {
+  padding: 12px 16px;
+  font-size: 0.875rem; font-weight: 500;
+  color: #475569;
+  text-align: left;
+  background: transparent; border: none; border-bottom: 1px solid #f1f5f9;
+  cursor: pointer; transition: background 0.2s;
+  display: block; width: 100%; box-sizing: border-box;
+}
+.lp-dropdown-item:last-child {
+  border-bottom: none;
+}
+.lp-dropdown-item:hover {
+  background: #f8fafc;
+  color: #0d9488;
+}
 
+.lp-book-now-btn { padding: 8px 18px !important; font-size: 0.875rem !important; margin-right: 12px; }
