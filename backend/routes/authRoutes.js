@@ -4,7 +4,14 @@ const path = require('path');
 const { register, login, getProfile, updateProfile } = require('../controllers/authController');
 const { protect } = require('../middlewares/authMiddleware');
 
+const fs = require('fs');
+
 const router = express.Router();
+
+const uploadDir = path.join(__dirname, '../uploads/docs');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 // Multer config — store uploaded docs in /uploads/docs/
 const storage = multer.diskStorage({
