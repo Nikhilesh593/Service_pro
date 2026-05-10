@@ -9,10 +9,10 @@ import LandingPage from './pages/LandingPage';
 import Navbar from './components/Navbar';
 import CustomerChatbot from './components/CustomerChatbot';
 
-const TECH_ROUTES = ['/technician-dashboard', '/organization-dashboard'];
+const TECH_ROUTES = [ '/technician-dashboard', '/organization-dashboard' ];
 
 function AppContent() {
-  const [user, setUser] = useState(null);
+  const [ user, setUser ] = useState(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -47,18 +47,18 @@ function AppContent() {
               : { padding: '32px', flex: 1, maxWidth: '1200px', margin: '0 auto', width: '100%' }
       }>
         <Routes>
-          <Route path="/login"    element={!user ? <Login setUser={setUser} /> : <Navigate to="/" />} />
+          <Route path="/login" element={!user ? <Login setUser={setUser} /> : <Navigate to="/" />} />
           <Route path="/register" element={!user ? <Register setUser={setUser} /> : <Navigate to="/" />} />
 
-          <Route path="/customer-dashboard"     element={user?.role === 'customer'     ? <CustomerDashboard user={user} onLogout={handleLogout} />                             : <Navigate to="/login" />} />
-          <Route path="/technician-dashboard"   element={user?.role === 'technician' || user?.role === 'organization' ? <TechnicianDashboard user={user} onLogout={handleLogout} /> : <Navigate to="/login" />} />
+          <Route path="/customer-dashboard" element={user?.role === 'customer' ? <CustomerDashboard user={user} onLogout={handleLogout} /> : <Navigate to="/login" />} />
+          <Route path="/technician-dashboard" element={user?.role === 'technician' || user?.role === 'organization' ? <TechnicianDashboard user={user} onLogout={handleLogout} /> : <Navigate to="/login" />} />
           <Route path="/organization-dashboard" element={user?.role === 'organization' || user?.role === 'technician' ? <TechnicianDashboard user={user} onLogout={handleLogout} /> : <Navigate to="/login" />} />
-          <Route path="/admin-dashboard"        element={user?.role === 'admin'        ? <AdminDashboard user={user} onLogout={handleLogout} />                                : <Navigate to="/login" />} />
+          <Route path="/admin-dashboard" element={user?.role === 'admin' ? <AdminDashboard user={user} onLogout={handleLogout} /> : <Navigate to="/login" />} />
 
           <Route path="/" element={<LandingPage user={user} onLogout={handleLogout} />} />
         </Routes>
       </main>
-      
+
       {/* Global AI Chatbot for Customers */}
       {user?.role === 'customer' && <CustomerChatbot />}
     </div>
