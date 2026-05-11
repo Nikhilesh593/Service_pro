@@ -99,6 +99,7 @@ export default function QRVerificationModal({
 	onClose,
 	requestId,
 	qrCode,
+	verificationToken,
 	onVerificationSuccess,
 	userType = 'customer', // 'customer' or 'technician'
 }) {
@@ -108,6 +109,35 @@ export default function QRVerificationModal({
 	const [success, setSuccess] = useState(false);
 
 	if (!isOpen) return null;
+
+	// For customers to verify with token (mobile-friendly)
+	const handleVerifyWithToken = async () => {
+		if (!verificationToken) {
+			setError('Verification token not found');
+			return;
+		}
+
+		try {
+			setLoading(true);
+			setError('');
+
+			const response = await api.post('/request/verify-token', {
+				token: verificationToken,
+			});
+
+			if (response.data.success) {
+				setSuccess(true);
+				onVerificationSuccess(response.data.request);
+				setTimeout(() => {
+					onClose();
+				}, 2000);
+			}
+		} catch (err) {
+			setError(err.response?.data?.message || 'Verification failed');
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	const handleQRScan = async (qrData) => {
 		try {
@@ -233,6 +263,43 @@ export default function QRVerificationModal({
 									) : (
 										<div className="qr-placeholder">
 											<p>QR Code not available</p>
+										</div>
+									)}
+
+									{userType === 'customer' && verificationToken && (
+										<div
+											className="verification-token-section"
+											style={{
+												marginTop: '20px',
+												padding: '15px',
+												background: 'rgba(79, 70, 229, 0.1)',
+												borderRadius: '8px',
+												border: '1px solid rgba(79, 70, 229, 0.3)',
+											}}
+										>
+											<p style={{ fontSize: '0.85rem', marginBottom: '8px' }}>
+												<strong>
+													📱 Or verify instantly (works on mobile):
+												</strong>
+											</p>
+											<button
+												className="btn-verify-now"
+												onClick={handleVerifyWithToken}
+												disabled={loading}
+												style={{
+													width: '100%',
+													padding: '10px',
+													background: '#10b981',
+													color: 'white',
+													border: 'none',
+													borderRadius: '6px',
+													cursor: loading ? 'not-allowed' : 'pointer',
+													fontWeight: '600',
+													fontSize: '1rem',
+												}}
+											>
+												{loading ? '⏳ Verifying...' : '✅ Verify Now'}
+											</button>
 										</div>
 									)}
 

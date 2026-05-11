@@ -272,6 +272,7 @@ export default function CustomerDashboard({ user, onLogout }) {
 				onClose={() => setShowQRModal(false)}
 				requestId={selectedRequestForQR?._id}
 				qrCode={selectedRequestForQR?.verificationQR?.qrCode}
+				verificationToken={selectedRequestForQR?.verificationQR?.verificationToken}
 				onVerificationSuccess={handleQRVerificationSuccess}
 			/>
 

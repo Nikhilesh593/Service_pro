@@ -279,6 +279,104 @@ exports.verifyQRCode = async (req, res) => {
 	}
 };
 
+/**
+ * Verify job via single-use token (works on mobile/localhost too)
+ * POST /api/request/verify-token
+ * Body: { token: "verification-token" }
+ */
+exports.verifyJobByToken = async (req, res) => {
+	try {
+		const { token } = req.body;
+
+		if (!token) {
+			return res.status(400).json({
+				success: false,
+				message: 'Verification token required',
+			});
+		}
+
+		// Find the request with this token and not expired/used
+		const request = await ServiceRequest.findOne({
+			'verificationQR.verificationToken': token,
+			'verificationQR.tokenUsed': false,
+			'verificationQR.tokenExpiry': { $gt: new Date() },
+		});
+
+		if (!request) {
+			return res.status(400).json({
+				success: false,
+				message: 'Invalid, expired, or already used verification token',
+			});
+		}
+
+		// Mark as verified and expire the token
+		request.verificationQR.isVerified = true;
+		request.verificationQR.tokenUsed = true;
+		request.verificationQR.scannedAt = new Date();
+		request.status = 'verified';
+		await request.save();
+
+		// Notify technician
+		await Notification.create({
+			userId: request.assignedTo,
+			title: 'Job Verified ✓',
+			message: `Your ${request.serviceType} job has been verified by the customer!`,
+			type: 'job_verified',
+			relatedRequest: request._id,
+		});
+
+		res.json({
+			success: true,
+			message: '✅ Job verified successfully! Thank you.',
+			request,
+		});
+	} catch (error) {
+		res.status(500).json({
+			success: false,
+			message: error.message,
+		});
+	}
+};
+
+/**
+ * Verify job via single-use link
+ * GET /api/request/verify-link/:token
+ */
+exports.verifyJobByLink = async (req, res) => {
+	try {
+		const { token } = req.params;
+		// Find the request with this token and not expired/used
+		const request = await ServiceRequest.findOne({
+			'verificationQR.verificationToken': token,
+			'verificationQR.tokenUsed': false,
+			'verificationQR.tokenExpiry': { $gt: new Date() },
+		});
+		if (!request) {
+			return res
+				.status(400)
+				.json({ success: false, message: 'Invalid or expired verification link.' });
+		}
+		// Mark as verified and expire the token
+		request.verificationQR.isVerified = true;
+		request.verificationQR.tokenUsed = true;
+		request.verificationQR.scannedAt = new Date();
+		request.status = 'verified';
+		await request.save();
+		// Notify technician
+		await Notification.create({
+			userId: request.assignedTo,
+			title: 'Job Verified',
+			message: `Your ${request.serviceType} job has been verified by the customer (via link).`,
+			type: 'job_verified',
+			relatedRequest: request._id,
+		});
+		// Optionally, redirect to a success page or show a message
+		res.json({ success: true, message: 'Job verified successfully!', request });
+	} catch (error) {
+		res.status(500).json({ success: false, message: error.message });
+	}
+};
+
 exports.getAnalytics = async (req, res) => {
 	try {
 		const userId = req.user._id;
