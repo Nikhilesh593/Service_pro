@@ -7,6 +7,7 @@ import TechnicianDashboard from './pages/TechnicianDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import LandingPage from './pages/LandingPage';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import CustomerChatbot from './components/CustomerChatbot';
 
 const TECH_ROUTES = [ '/technician-dashboard', '/organization-dashboard' ];
@@ -58,6 +59,9 @@ function AppContent() {
           <Route path="/" element={<LandingPage user={user} onLogout={handleLogout} />} />
         </Routes>
       </main>
+
+      {/* Show Footer on Landing Page */}
+      {isLandingPage && <Footer />}
 
       {/* Global AI Chatbot for Customers */}
       {user?.role === 'customer' && <CustomerChatbot />}
