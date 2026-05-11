@@ -1,13 +1,14 @@
 const express = require('express');
 const {
-  createRequest,
-  getMyRequests,
-  getAllRequests,
-  acceptRequest,
-  rejectRequest,
-  completeRequest,
-  downloadPdf,
-  getAnalytics
+	createRequest,
+	getMyRequests,
+	getAllRequests,
+	acceptRequest,
+	rejectRequest,
+	completeRequest,
+	downloadPdf,
+	verifyQRCode,
+	getAnalytics,
 } = require('../controllers/requestController');
 const { protect, authorize } = require('../middlewares/authMiddleware');
 const upload = require('../middlewares/uploadMiddleware');
@@ -23,6 +24,7 @@ router.get('/analytics', authorize('technician', 'organization'), getAnalytics);
 router.put('/accept/:id', authorize('technician', 'organization'), acceptRequest);
 router.put('/reject/:id', authorize('technician', 'organization'), rejectRequest);
 router.put('/complete/:id', authorize('technician', 'organization', 'admin'), completeRequest);
+router.post('/:id/verify-qr', authorize('customer'), verifyQRCode);
 router.get('/:id/pdf', downloadPdf);
 
 module.exports = router;
