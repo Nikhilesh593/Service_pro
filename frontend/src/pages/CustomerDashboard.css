@@ -12,7 +12,7 @@
   background: #ffffff;
   border-radius: 12px;
   padding: 32px 0;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -29,7 +29,8 @@
   width: 86px;
   height: 86px;
   border-radius: 50%;
-  background: #69F0AE; /* specific light green from screenshot */
+  background: #69F0AE;
+  /* specific light green from screenshot */
   color: #1e293b;
   font-size: 32px;
   font-weight: 500;
@@ -82,7 +83,8 @@
 }
 
 .cd-nav-item.active {
-  color: #f97316; /* orange */
+  color: #f97316;
+  /* orange */
 }
 
 .cd-nav-item.active svg {
@@ -96,6 +98,7 @@
 .cd-logout-btn:hover {
   color: #ef4444;
 }
+
 .cd-logout-btn:hover svg {
   color: #ef4444;
 }
@@ -106,7 +109,7 @@
   background: #ffffff;
   border-radius: 12px;
   padding: 32px 40px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
   border: 1px solid #f1f5f9;
 }
 
@@ -129,13 +132,23 @@
 .cd-btn-new-small {
   position: absolute;
   right: 0;
-  display: flex; align-items: center; gap: 6px;
-  background: #fff7ed; color: #f97316;
-  border: 1px solid #fed7aa; border-radius: 50px;
-  padding: 8px 16px; font-size: 0.85rem; font-weight: 600;
-  cursor: pointer; transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff7ed;
+  color: #f97316;
+  border: 1px solid #fed7aa;
+  border-radius: 50px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
 }
-.cd-btn-new-small:hover { background: #ffedd5; }
+
+.cd-btn-new-small:hover {
+  background: #ffedd5;
+}
 
 /* Tabs */
 .cd-tabs {
@@ -191,8 +204,9 @@
   background: #ffffff;
   transition: box-shadow 0.2s;
 }
+
 .cd-booking-card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
 .cd-booking-header {
@@ -218,9 +232,12 @@
   letter-spacing: 0.5px;
 }
 
-.status-pending, .status-accepted {
-  background: #bae6fd; /* light blue */
-  color: #0369a1; /* deeper blue */
+.status-pending,
+.status-accepted {
+  background: #bae6fd;
+  /* light blue */
+  color: #0369a1;
+  /* deeper blue */
 }
 
 .status-completed {
@@ -228,7 +245,8 @@
   color: #166534;
 }
 
-.status-cancelled, .status-rejected {
+.status-cancelled,
+.status-rejected {
   background: #fee2e2;
   color: #991b1b;
 }
@@ -262,12 +280,65 @@
   color: #f97316;
 }
 
+/* Payment Status */
+.cd-payment-status {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.payment-badge {
+  display: inline-block;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 4px;
+  animation: pulse 2s infinite;
+}
+
+.payment-badge.payment-completed {
+  background: #dcfce7;
+  color: #166534;
+  animation: none;
+}
+
+/* Verification Status */
+.cd-verification-status {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.verification-badge {
+  display: inline-block;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 4px;
+  animation: pulse 2s infinite;
+}
+
+.verification-badge.verified {
+  background: #dcfce7;
+  color: #166534;
+  animation: none;
+}
+
 .cd-booking-actions {
   display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .cd-btn-action {
-  width: 100%;
+  flex: 1;
+  min-width: 120px;
   background: transparent;
   border: 1px solid #f97316;
   color: #f97316;
@@ -283,18 +354,55 @@
   background: #fff7ed;
 }
 
+.cd-btn-action.payment {
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+  color: #fff;
+  border-color: #4F46E5;
+}
+
+.cd-btn-action.payment:hover {
+  background: linear-gradient(135deg, #3f3cc0 0%, #6d28d9 100%);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+}
+
+.cd-btn-action.qr {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #fff;
+  border-color: #10b981;
+}
+
+.cd-btn-action.qr:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
 /* ── Responsive ────────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .cd-layout {
     flex-direction: column;
   }
+
   .cd-sidebar {
     width: 100%;
   }
+
   .cd-btn-new-small {
     position: static;
     margin-left: auto;
   }
+
   .cd-main-header {
     justify-content: flex-start;
     gap: 16px;
